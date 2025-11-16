@@ -112,6 +112,7 @@ const ProjectDetail: React.FC = () => {
     if (loadedOnceRef.current) return;
     loadedOnceRef.current = true;
     loadProject();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const openEnvModal = () => {
