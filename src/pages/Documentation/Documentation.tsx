@@ -5,7 +5,6 @@ import ReactMarkdown from 'react-markdown';
 import toast from 'react-hot-toast';
 import apiService from '../../services/api';
 import { Project } from '../../types';
-import { downloadJSON } from '../../utils/helpers';
 import BackButton from '../../components/BackButton/BackButton';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 
@@ -23,6 +22,7 @@ const Documentation: React.FC = () => {
     if (id) {
       loadProject();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const loadProject = async () => {
@@ -46,7 +46,7 @@ const Documentation: React.FC = () => {
 
     try {
       setGenerating(true);
-      const documentation = await apiService.generateDocumentation(id!);
+      await apiService.generateDocumentation(id!);
       toast.success('Documentation generated successfully');
       loadProject();
     } catch (error: any) {

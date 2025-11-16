@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 import apiService from '../../services/api';
 import { Project } from '../../types';
 import { formatRelativeTime } from '../../utils/helpers';
-import BackButton from '../../components/BackButton/BackButton';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 
 /**
