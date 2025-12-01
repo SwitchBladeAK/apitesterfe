@@ -42,6 +42,7 @@ const PerformanceMonitoring: React.FC = () => {
       loadProject();
       loadTests();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const loadProject = async () => {
@@ -77,7 +78,7 @@ const PerformanceMonitoring: React.FC = () => {
 
     try {
       setRunning(true);
-      const test = await apiService.runPerformanceTest(id!, selectedEndpoint, testConfig);
+      await apiService.runPerformanceTest(id!, selectedEndpoint, testConfig);
       toast.success('Performance test started');
       // Poll for results
       setTimeout(() => {
