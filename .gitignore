@@ -80,7 +80,6 @@ dist
 
 # Gatsby (if ever used)
 .cache/
-public
 
 # Storybook build outputs
 storybook-static
