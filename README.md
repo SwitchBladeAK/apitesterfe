@@ -127,10 +127,68 @@ npm test
 | `npm run lint`  | Lint code (optional) |
 
 ---
+# 🌐 Architecture Diagram
 
-# 📝 Notes
+```mermaid
+---
+config:
+  layout: dagre
+---
+flowchart TB
+subgraph FE_BOX["Frontend"]
+    FE_Pages["Pages / Dashboard / Builder"]
+    FE_Components["Reusable UI Components"]
+    FE_Services["API Services (Axios)"]
+    FE_Flow["System Visualization (React Flow)"]
+end
 
-* Uses a centralized Axios instance for DRY API calls
-* Responsive layout powered by Tailwind
-* Designed to integrate seamlessly with backend REST API
-* Can be containerized easily with Docker
+subgraph BE_BOX["Backend (Node.js + Express + TS)"]
+    BE_Routes["Routes Layer"]
+    BE_Controllers["Controllers"]
+    BE_Services["Services: AI, Performance, ZIP Parser"]
+    BE_Models["Models (Mongoose)"]
+    BE_Middlewares["Middlewares: Validation, Security, Uploads"]
+end
+
+A["User / Developer"] -- Uses App --> FE["Frontend (React + TS)"]
+FE_Pages --> FE_Components & FE_Services & FE_Flow
+FE --> FE_Pages
+BE_Routes --> BE_Controllers
+BE_Controllers --> BE_Services & BE_Middlewares
+BE_Services --> BE_Models
+FE_Services -- REST JSON --> BE_Routes
+BE_Models --> DB["(MongoDB)"]
+BE_Services -- Send Prompts / Receive Test Cases & Docs --> Gemini["Google Gemini AI + Huggingface"]
+BE_Services -- Forward API Calls --> TargetAPI["Target API / Endpoints"]
+TargetAPI -- Response + Metrics --> BE_Services
+BE_Controllers -- Return Test Results / AI Data / System Model --> FE_Pages
+FE_Pages -- Visualize / Interact --> A
+
+FE_Pages:::feNode
+FE_Components:::feNode
+FE_Services:::feNode
+FE_Flow:::feNode
+BE_Routes:::beNode
+BE_Controllers:::beNode
+BE_Services:::beNode
+BE_Models:::beNode
+BE_Middlewares:::beNode
+A:::user
+FE:::feMain
+DB:::storage
+Gemini:::ai
+TargetAPI:::external
+
+classDef feNode fill:#f2f6fc,stroke:#7cbafd,color:#222,font-size:13px,font-family:Inter,stroke-width:2px
+classDef beNode fill:#f7fef9,stroke:#80cbc4,color:#283646,font-size:13px,font-family:Inter,stroke-width:2px
+classDef feMain fill:#e3f2fd,stroke:#2196f3,stroke-width:2.5px,color:#17394b,font-weight:bold,font-size:15px
+classDef storage fill:#f4f5fb,stroke:#b0b8c1,color:#373737,font-size:13px,font-family:Inter,stroke-width:2px
+classDef ai fill:#f3edfc,stroke:#b39ddb,color:#483365,font-size:13px,font-family:Inter,stroke-width:2px
+classDef user fill:#fff9ea,stroke:#ffd54f,color:#6d4c10,font-size:14px,font-family:Inter,stroke-width:2.5px,font-weight:bold
+classDef external fill:#eaf7fa,stroke:#7ed5ea,color:#195a63,font-size:13px,font-family:Inter,stroke-width:2px
+
+style FE_BOX fill:#e6ebf5,stroke:#bbdefb,stroke-width:2px,color:#26425a
+style BE_BOX fill:#edf7ee,stroke:#b2dfdb,stroke-width:2px,color:#265148
+```
+
+---
